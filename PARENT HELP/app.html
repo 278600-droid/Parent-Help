@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Help - Confident Conversations with Your Child's Teacher</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #2D7FD6 0%, #1F5BA8 100%); color: white; padding: 3rem 2rem; position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 60%); pointer-events: none; }
+        @keyframes shine { 0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.6)); } 50% { filter: drop-shadow(0 0 16px rgba(255, 200, 0, 0.9)); } }
+        .header-content { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 3rem; max-width: 1200px; margin: 0 auto; }
+        .header-logo { display: flex; align-items: center; gap: 2rem; flex: 1; }
+        .header-text h1 { 
+            font-size: 3.2rem; 
+            margin-bottom: 0.6rem; 
+            font-weight: 900; 
+            letter-spacing: -0.5px; 
+            line-height: 1.1; 
+            color: #000000;
+        }
+        .header-text p { font-size: 1.3rem; opacity: 0.95; font-weight: 300; line-height: 1.5; letter-spacing: 0.2px; }
+        .header-badge { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(30px); padding: 1.8rem 2rem; border-radius: 16px; border: 1.5px solid rgba(255,255,255,0.2); transition: all 0.3s ease; }
+        .header-badge:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); border-color: rgba(255,255,255,0.35); }
+        .badge-icon { font-size: 3.5rem; display: flex; gap: 0.3rem; animation: handshake 2s ease-in-out infinite; }
+        @keyframes handshake { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-5deg); } }
+        .badge-text { text-align: center; }
+        .badge-text strong { display: block; font-weight: 600; font-size: 1rem; opacity: 1; margin-bottom: 0.4rem; }
+        .badge-text span { display: block; opacity: 0.85; font-weight: 300; font-size: 0.85rem; line-height: 1.5; }
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; text-align: center; gap: 2rem; }
+            .header-logo { flex-direction: column; gap: 1.5rem; }
+            .header { padding: 2.5rem 1.5rem; }
+            .header-text h1 { font-size: 2.5rem; }
+            .header-text p { font-size: 1.1rem; }
+            .header-badge { text-align: center; }
+        }
+        .tabs { display: flex; gap: 0.5rem; border-bottom: 2px solid rgba(0,0,0,0.05); padding: 0 2rem; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .tab-btn { padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-size: 1rem; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s; font-weight: 500; }
+        .tab-btn:hover { color: #378ADD; }
+        .tab-btn.active { color: #378ADD; border-bottom-color: #378ADD; }
+        .content { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .section { background: white; padding: 2.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-top: 4px solid #378ADD; transition: all 0.3s; }
+        .section:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .section h2 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #0C3D72; font-weight: 600; }
+        .section > p:first-of-type { color: #666; margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.6; }
+        .form-group { margin-bottom: 1.8rem; }
+        .form-group label { display: block; margin-bottom: 0.7rem; font-weight: 600; color: #0C3D72; font-size: 0.95rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.9rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; transition: all 0.3s; background: #f9fafb; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #378ADD; background: white; box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.1); }
+        .form-group textarea { min-height: 110px; resize: vertical; }
+        .radio-group { display: flex; flex-direction: column; gap: 1rem; }
+        .radio-item { display: flex; align-items: flex-start; padding: 1.2rem; border: 2px solid #e8e8e8; border-radius: 10px; cursor: pointer; transition: all 0.3s; background: #f9fafb; }
+        .radio-item:hover { border-color: #378ADD; background: #f0f4f8; transform: translateX(4px); }
+        .radio-item input { margin-right: 1rem; margin-top: 0.4rem; cursor: pointer; accent-color: #378ADD; }
+        .radio-label strong { display: block; margin-bottom: 0.3rem; color: #0C3D72; font-size: 0.95rem; }
+        .radio-label .note { font-size: 0.85rem; color: #999; display: block; }
+        /* YEAR SELECTION STYLES */
+        .year-selection .radio-group { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1.2rem; }
+        .year-selection .radio-item { flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1.8rem 1rem; border: none; position: relative; font-weight: 600; color: white; height: 120px; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 16px rgba(0,0,0,0.15); border-radius: 14px; overflow: hidden; }
+        .year-selection .radio-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%); pointer-events: none; }
+        .year-selection .radio-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, transparent 100%); pointer-events: none; }
+        .year-selection .radio-item input { position: absolute; opacity: 0; }
+        .year-selection .radio-item:nth-child(1) { background: linear-gradient(135deg, #EEEDFE 0%, #DDD6F3 100%); color: #3C3489; box-shadow: 0 10px 24px rgba(60, 52, 137, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .year-selection .radio-item:nth-child(2) { background: linear-gradient(135deg, #E1F5EE 0%, #C8EFE5 100%); color: #085041; box-shadow: 0 10px 24px rgba(8, 80, 65, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .year-selection .radio-item:nth-child(3) { background: linear-gradient(135deg, #FAEEDA 0%, #F5DDB8 100%); color: #633806; box-shadow: 0 10px 24px rgba(99, 56, 6, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .year-selection .radio-item:nth-child(4) { background: linear-gradient(135deg, #FAECE7 0%, #F5DDD0 100%); color: #712B13; box-shadow: 0 10px 24px rgba(113, 43, 19, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .year-selection .radio-item:nth-child(5) { background: linear-gradient(135deg, #E6F1FB 0%, #D6E9F7 100%); color: #0C447C; box-shadow: 0 10px 24px rgba(12, 68, 124, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .year-selection .radio-item:nth-child(6) { background: linear-gradient(135deg, #FBEAF0 0%, #F5DBEB 100%); color: #72243E; box-shadow: 0 10px 24px rgba(114, 36, 62, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .year-selection .radio-item:nth-child(7) { background: linear-gradient(135deg, #F5D7F5 0%, #EBBCE8 100%); color: #5A1E5A; box-shadow: 0 10px 24px rgba(90, 30, 90, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .year-selection .radio-item:hover { transform: translateY(-8px); box-shadow: 0 16px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .year-selection .radio-item input:checked + .radio-label { font-weight: 700; }
+        .year-selection .radio-item input:checked ~ * { opacity: 1; }
+        .year-selection .radio-label { margin: 0; position: relative; z-index: 2; }
+        .year-selection .radio-label strong { margin-bottom: 0; font-size: 1.2rem; font-weight: 700; }
+        .year-selection .radio-label .note { display: none; }
+        /* AREA SELECTION STYLES */
+        .area-selection .radio-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.2rem; }
+        .area-selection .radio-item { flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1.8rem 1rem; border: none; position: relative; font-weight: 600; color: white; height: 140px; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 16px rgba(0,0,0,0.15); border-radius: 14px; overflow: hidden; }
+        .area-selection .radio-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%); pointer-events: none; }
+        .area-selection .radio-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, transparent 100%); pointer-events: none; }
+        .area-selection .radio-item input { position: absolute; opacity: 0; }
+        .area-selection .radio-item:nth-child(1) { background: linear-gradient(135deg, #EEEDFE 0%, #DDD6F3 100%); color: #3C3489; box-shadow: 0 10px 24px rgba(60, 52, 137, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .area-selection .radio-item:nth-child(2) { background: linear-gradient(135deg, #E1F5EE 0%, #C8EFE5 100%); color: #085041; box-shadow: 0 10px 24px rgba(8, 80, 65, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .area-selection .radio-item:nth-child(3) { background: linear-gradient(135deg, #FAEEDA 0%, #F5DDB8 100%); color: #633806; box-shadow: 0 10px 24px rgba(99, 56, 6, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .area-selection .radio-item:nth-child(4) { background: linear-gradient(135deg, #FAECE7 0%, #F5DDD0 100%); color: #712B13; box-shadow: 0 10px 24px rgba(113, 43, 19, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .area-selection .radio-item:nth-child(5) { background: linear-gradient(135deg, #E6F1FB 0%, #D6E9F7 100%); color: #0C447C; box-shadow: 0 10px 24px rgba(12, 68, 124, 0.25), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .area-selection .radio-item:hover { transform: translateY(-8px); box-shadow: 0 16px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .area-selection .radio-item input:checked + .radio-label { font-weight: 700; }
+        .area-selection .radio-item input:checked ~ * { opacity: 1; }
+        .area-selection .radio-label { margin: 0; position: relative; z-index: 2; }
+        .area-selection .radio-label strong { margin-bottom: 0.2rem; font-size: 0.95rem; font-weight: 700; }
+        .area-selection .radio-label .note { display: none; }
+        @media (max-width: 1024px) {
+            .year-selection .radio-group { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .year-selection .radio-group { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+            .year-selection .radio-item { padding: 1.2rem 0.5rem; height: 100px; font-size: 0.9rem; }
+            .year-selection .radio-label strong { font-size: 1rem; }
+            .area-selection .radio-group { grid-template-columns: repeat(2, 1fr); }
+            .area-selection .radio-item { padding: 1.2rem 0.5rem; height: 120px; }
+        }
+        .btn { padding: 0.9rem 2rem; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #378ADD 0%, #2567B8 100%); color: white; box-shadow: 0 4px 12px rgba(55, 138, 221, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(55, 138, 221, 0.4); }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-secondary { background: #f0f0f0; color: #333; border: 2px solid #ddd; transition: all 0.3s; }
+        .btn-secondary:hover { background: #e0e0e0; border-color: #378ADD; }
+        .ai-chat { background: linear-gradient(135deg, #f0f4f8 0%, #f9fafb 100%); border-left: 4px solid #378ADD; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; }
+        .message { margin-bottom: 1rem; padding: 1.2rem 1.5rem; border-radius: 8px; line-height: 1.6; }
+        .message.assistant { background: white; border: 1px solid #e0e0e0; color: #333; }
+        .message.user { background: #378ADD; color: white; margin-left: 2rem; }
+        .banner { background: linear-gradient(135deg, #E1F5EE 0%, #e8f5f0 100%); border-left: 4px solid #1D9E75; padding: 2rem; margin-bottom: 2rem; border-radius: 10px; }
+        .banner h3 { color: #085041; margin-bottom: 1rem; font-size: 1rem; font-weight: 600; }
+        .banner p { color: #0F6E56; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0.5rem; }
+        .banner strong { color: #085041; }
+        .curriculum-context { background: linear-gradient(135deg, #fff3cd 0%, #fffbf0 100%); border-left: 4px solid #ffc107; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; }
+        .curriculum-context p { margin-bottom: 1rem; font-size: 0.95rem; }
+        .hidden { display: none; }
+        .placeholder { text-align: center; padding: 4rem 2rem; color: #999; }
+        .placeholder-icon { font-size: 3rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState } = React;
+
+const curriculumAreas = {
+    'Prep': [
+        { id: 'reading', label: 'Reading & Phonemic Awareness', note: 'Letter recognition, interest in stories, print concepts', 
+          expectation: 'By the end of Prep, students explore sounds, letters and words. They recognise and name letters, understand concepts of print and show interest in listening to and reading stories.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/foundation-level/' },
+        { id: 'writing', label: 'Writing & Mark-Making', note: 'Fine motor skills, letter formation, drawing', 
+          expectation: 'Students represent letters and sounds through mark-making and drawing. They begin to form letters with awareness of directionality.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/foundation-level/' },
+        { id: 'maths', label: 'Numeracy & Number Sense', note: 'Counting, quantity, shapes, pattern recognition', 
+          expectation: 'Students count to at least 10, subitise small groups of objects, identify and describe 2D shapes and follow simple patterns.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/mathematics/foundation-level/' },
+        { id: 'social', label: 'Social-Emotional Development', note: 'Settling, friendships, emotional regulation', 
+          expectation: 'Students settle into school routines, begin to develop friendships and manage emotions with support from adults.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' },
+        { id: 'focus', label: 'Focus & Engagement', note: 'Attention, transitions, cooperation', 
+          expectation: 'Students engage with learning activities for short periods and participate in transitions and cooperative activities with adult support.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' }
+    ],
+    'Year 1': [
+        { id: 'reading', label: 'Reading & Decoding', note: 'Sound blending, phonics, sight words, comprehension',
+          expectation: 'Students blend sounds to read simple words, recognise high-frequency words and read and understand simple texts with familiar ideas and vocabulary.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-1/' },
+        { id: 'writing', label: 'Writing & Composition', note: 'Letter formation, simple sentences, spelling',
+          expectation: 'Students form letters correctly, write simple sentences using phonetically regular words and some high-frequency words, with adult support.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-1/' },
+        { id: 'maths', label: 'Numeracy & Counting', note: 'Number formation, basic operations, place value',
+          expectation: 'Students count forwards and backwards to 20, identify numbers to 10, understand one-to-one correspondence and solve simple addition and subtraction problems.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/mathematics/year-1/' },
+        { id: 'social', label: 'Social & Wellbeing', note: 'Friendships, school adjustment, emotional awareness',
+          expectation: 'Students develop awareness of emotions and build friendships through play and cooperative learning. They adjust to school routines and expectations.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' },
+        { id: 'focus', label: 'Focus & Self-Regulation', note: 'Task completion, listening, impulse control',
+          expectation: 'Students listen and follow instructions, stay on task for increasing periods and use strategies to manage behaviour with adult guidance.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' }
+    ],
+    'Year 2': [
+        { id: 'reading', label: 'Reading Fluency & Comprehension', note: 'Fluent reading, understanding text, making predictions',
+          expectation: 'Students read with increasing fluency and accuracy. They understand main ideas in texts, answer comprehension questions and make simple predictions.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-2/' },
+        { id: 'writing', label: 'Writing Conventions', note: 'Sentence structure, spelling, punctuation, recount texts',
+          expectation: 'Students write simple sentences with correct capitalisation and full stops. They spell common words correctly and write recounts of personal experiences.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-2/' },
+        { id: 'maths', label: 'Number Facts & Operations', note: 'Addition/subtraction facts, place value, mental maths',
+          expectation: 'Students know addition and subtraction facts to 10, understand place value to 20, skip count by 2s and 5s, and solve word problems.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/mathematics/year-2/' },
+        { id: 'social', label: 'Social Connection', note: 'Peer relationships, school engagement, emotional resilience',
+          expectation: 'Students form positive peer relationships, participate in group activities and show increasing emotional resilience when facing challenges.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' },
+        { id: 'focus', label: 'Independent Task Completion', note: 'Sustained attention, following instructions, organisation',
+          expectation: 'Students sustain attention during learning, follow multi-step instructions and organise materials with minimal adult support.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' }
+    ],
+    'Year 3': [
+        { id: 'reading', label: 'Reading Comprehension', note: 'Understanding texts, identifying main ideas, inference',
+          expectation: 'Students read texts fluently, identify main ideas, sequence events and make inferences from texts. They understand a wider range of vocabulary.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-3/' },
+        { id: 'writing', label: 'Writing Structure & Composition', note: 'Narrative, recount, procedural texts, organisation',
+          expectation: 'Students write texts that are well-organised with a clear sequence. They write narratives, recounts and simple procedural texts with mostly correct spelling and punctuation.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-3/' },
+        { id: 'maths', label: 'Numeracy & Problem-Solving', note: 'Fact fluency, multiplication, fractions, word problems',
+          expectation: 'Students know multiplication facts to 10x10, understand division, recognise halves and quarters, and solve multi-step word problems.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/mathematics/year-3/' },
+        { id: 'social', label: 'Relationships & Inclusion', note: 'Peer groups, bullying concerns, social anxiety',
+          expectation: 'Students develop positive peer relationships, understand fairness and inclusion. They seek help when experiencing conflict or social difficulties.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' },
+        { id: 'focus', label: 'Attention & Independence', note: 'Independent learning, organisation, multi-step tasks',
+          expectation: 'Students work independently on learning tasks, manage their own materials and complete multi-step activities with minimal adult support.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' }
+    ],
+    'Year 4': [
+        { id: 'reading', label: 'Reading Across Text Types', note: 'Complex comprehension, inference, author purpose',
+          expectation: 'Students read various text types with understanding. They identify main ideas and supporting details, make inferences and discuss author purpose.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-4/' },
+        { id: 'writing', label: 'Writing Different Forms', note: 'Persuasive, narrative, procedural texts, paragraph structure',
+          expectation: 'Students write organised texts including narratives, recounts, persuasive and procedural texts. They use paragraphs, correct punctuation and mostly accurate spelling.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-4/' },
+        { id: 'maths', label: 'Numeracy & Algorithms', note: 'Multiplication/division facts, fractions, decimals',
+          expectation: 'Students apply multiplication and division facts fluently. They understand fractions and decimals, and apply efficient strategies to solve problems.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/mathematics/year-4/' },
+        { id: 'social', label: 'Social Confidence & Belonging', note: 'Friendships, exclusion concerns, school motivation',
+          expectation: 'Students demonstrate confidence in social situations, build positive friendships and show intrinsic motivation for learning.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' },
+        { id: 'focus', label: 'Sustained Engagement', note: 'Extended task completion, self-organisation',
+          expectation: 'Students sustain engagement over extended periods, self-organise learning and demonstrate responsibility for completing work.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' }
+    ],
+    'Year 5': [
+        { id: 'reading', label: 'Reading Analysis & Interpretation', note: 'Analysing texts, implicit meaning, comparing sources',
+          expectation: 'Students analyse texts to find explicit and implicit information. They discuss how language and structure influence meaning and compare information across texts.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-5/' },
+        { id: 'writing', label: 'Writing for Different Audiences', note: 'Persuasive, explanatory, narrative with purpose',
+          expectation: 'Students write for different purposes and audiences using appropriate language and structure. They write persuasive, explanatory and narrative texts with clear organisation.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-5/' },
+        { id: 'maths', label: 'Numeracy & Reasoning', note: 'Fluency in operations, fractions/decimals/percentages',
+          expectation: 'Students apply number facts and strategies fluently. They understand fractions, decimals and percentages as connected concepts and solve multi-step problems.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/mathematics/year-5/' },
+        { id: 'social', label: 'Peer Relationships & Mental Health', note: 'Bullying, social anxiety, self-esteem',
+          expectation: 'Students develop healthy peer relationships, manage emotions constructively and seek help when experiencing social difficulties or bullying.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' },
+        { id: 'focus', label: 'Learning Motivation & Confidence', note: 'Engagement levels, homework completion',
+          expectation: 'Students demonstrate motivation for learning, take responsibility for their own learning and complete homework and assigned tasks independently.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' }
+    ],
+    'Year 6': [
+        { id: 'reading', label: 'Reading Complex Texts', note: 'Language analysis, evaluating credibility',
+          expectation: 'Students read complex texts fluently and with understanding. They analyse language choices, evaluate author credibility and synthesise information from multiple texts.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-6/' },
+        { id: 'writing', label: 'Writing with Purpose & Control', note: 'Multi-paragraph texts, audience awareness',
+          expectation: 'Students write well-structured multi-paragraph texts for specific purposes and audiences. They use language precisely and check and refine their work.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/english/year-6/' },
+        { id: 'maths', label: 'Numeracy & Mathematical Reasoning', note: 'Algebra concepts, area/volume, data interpretation',
+          expectation: 'Students apply mathematical reasoning and strategies to solve unfamiliar problems. They understand area and volume, apply percentages and interpret data.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/learning-areas/mathematics/year-6/' },
+        { id: 'social', label: 'Transition Readiness & Wellbeing', note: 'High school readiness, social concerns',
+          expectation: 'Students demonstrate readiness for Year 7, showing independence, responsibility and positive peer relationships. They manage transitions and change positively.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' },
+        { id: 'focus', label: 'Academic Engagement & Readiness', note: 'Year 7 transition concerns, motivation',
+          expectation: 'Students show sustained engagement in learning, demonstrate responsibility and are equipped with study skills and independence for secondary school.',
+          standard: 'https://v9.australiancurriculum.edu.au/f-10-curriculum/general-capabilities/personal-and-social-capability/' }
+    ]
+};
+
+function App() {
+    const [tab, setTab] = useState('guide');
+    const [year, setYear] = useState('');
+    const [area, setArea] = useState('');
+    const [showAi, setShowAi] = useState(false);
+    const [aiResponse, setAiResponse] = useState('');
+    const [aiAnswered, setAiAnswered] = useState(false);
+    const [formData, setFormData] = useState({
+        observations: '',
+        frequency: '',
+        duration: '',
+        date: new Date().toISOString().split('T')[0]
+    });
+    const [isPaid, setIsPaid] = useState(false);
+    const [reportGenerated, setReportGenerated] = useState(false);
+
+    const handleAiSubmit = (e) => {
+        e.preventDefault();
+        const input = e.target.answer.value;
+        setAiResponse(input);
+        setFormData(prev => ({...prev, observations: input}));
+        setAiAnswered(true);
+    };
+
+    const handleFormChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({...prev, [name]: value}));
+    };
+
+    const generateReport = () => {
+        if (!year || !area) {
+            alert('Please select year level and area');
+            return;
+        }
+        setReportGenerated(true);
+        setTab('preview');
+    };
+
+    return (
+        <div className="container">
+            <div className="header">
+                <div className="header-content">
+                    <div className="header-logo">
+                        <div className="header-text">
+                            <h1>Parent Help</h1>
+                            <p>Confident conversations with your child's teacher</p>
+                        </div>
+                    </div>
+                    <div className="header-badge">
+                        <div className="badge-icon">🏠 🤝 🏫</div>
+                        <div className="badge-text">
+                            <strong>Home & School</strong>
+                            <span>Working together for your child's success</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="tabs">
+                <button className={`tab-btn ${tab === 'guide' ? 'active' : ''}`} onClick={() => setTab('guide')}>📝 Interactive Guide</button>
+                <button className={`tab-btn ${tab === 'preview' ? 'active' : ''}`} onClick={() => setTab('preview')}>👁️ Preview Report</button>
+                <button className={`tab-btn ${tab === 'pricing' ? 'active' : ''}`} onClick={() => setTab('pricing')}>💳 Report Generator</button>
+            </div>
+
+            <div className="content">
+                {tab === 'guide' && (
+                    <>
+                        <div className="banner">
+                            <h3>🎓 Designed by an Education Expert</h3>
+                            <p><strong>25+ years of teaching experience</strong><br/>
+                            <strong>PhD in Educational Philosophy</strong></p>
+                            <p style={{marginTop: '1rem'}}>This app reflects research-backed best practices and real classroom insights. Built to help parents navigate conversations with confidence and clarity.</p>
+                        </div>
+
+                        <div className="section year-selection">
+                            <h2>Step 1: Select Your Child's Year Level</h2>
+                            <div className="radio-group">
+                                {Object.keys(curriculumAreas).map(y => (
+                                    <label key={y} className="radio-item">
+                                        <input type="radio" name="year" value={y} checked={year === y} onChange={(e) => { setYear(e.target.value); setArea(''); setShowAi(false); }} />
+                                        <div className="radio-label"><strong>{y}</strong></div>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        {year && !showAi && (
+                            <div className="section area-selection">
+                                <h2>Step 2: Select Area of Concern</h2>
+                                <div className="radio-group">
+                                    {curriculumAreas[year].map(a => (
+                                        <label key={a.id} className="radio-item">
+                                            <input type="radio" name="area" value={a.id} checked={area === a.id} onChange={(e) => setArea(e.target.value)} />
+                                            <div className="radio-label"><strong>{a.label}</strong><span className="note">{a.note}</span></div>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {area && !showAi && !aiAnswered && (
+                            <div className="section">
+                                <h2>Step 2b: Talk It Through</h2>
+                                <p style={{marginBottom: '1.5rem'}}>Before filling in the form, describe what you've noticed. This helps clarify your thoughts.</p>
+                                <button className="btn btn-primary" onClick={() => setShowAi(true)}>💬 Start Conversation</button>
+                                <button className="btn btn-secondary" style={{marginLeft: '1rem'}} onClick={() => setAiAnswered(true)}>Skip to Form</button>
+                            </div>
+                        )}
+
+                        {showAi && !aiAnswered && (
+                            <div className="section">
+                                <h2>Step 2b: Talk It Through</h2>
+                                <div className="ai-chat">
+                                    <div className="message assistant">Hi! Let's talk about {area.toLowerCase()} for {year}. In a few sentences, can you describe what you've noticed that made you concerned?</div>
+                                </div>
+                                <form onSubmit={handleAiSubmit}>
+                                    <div className="form-group">
+                                        <textarea name="answer" placeholder="Type your response..." required></textarea>
+                                    </div>
+                                    <button type="submit" className="btn btn-primary">Send</button>
+                                </form>
+                            </div>
+                        )}
+
+                        {aiAnswered && (
+                            <div className="section">
+                                <h2>Curriculum Context</h2>
+                                <p style={{marginBottom: '1.5rem', fontSize: '0.95rem'}}>Here's what the Australian Curriculum expects at {year} for {curriculumAreas[year].find(a => a.id === area)?.label.toLowerCase()}:</p>
+                                {curriculumAreas[year] && curriculumAreas[year].find(a => a.id === area) && (
+                                    <div style={{background: '#f0f4f8', padding: '1.5rem', borderLeft: '4px solid #378ADD', marginBottom: '1.5rem', borderRadius: '6px'}}>
+                                        <p style={{marginBottom: '1rem', fontSize: '0.95rem', fontStyle: 'italic'}}>"{curriculumAreas[year].find(a => a.id === area).expectation}"</p>
+                                        <p style={{fontSize: '0.85rem', color: '#666'}}>
+                                            <a href={curriculumAreas[year].find(a => a.id === area).standard} target="_blank" rel="noopener noreferrer" style={{color: '#378ADD', textDecoration: 'none'}}>
+                                                📖 View full Australian Curriculum v9 →
+                                            </a>
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {aiAnswered && (
+                            <div className="section">
+                                <h2>Step 4: Your Concern in Context</h2>
+                                <p style={{marginBottom: '1.5rem', fontSize: '0.95rem'}}>Here's how your observation aligns with what the curriculum expects:</p>
+                                {curriculumAreas[year] && curriculumAreas[year].find(a => a.id === area) && (
+                                    <div style={{background: '#fff3cd', padding: '1.5rem', borderLeft: '4px solid #ffc107', marginBottom: '1.5rem', borderRadius: '6px'}}>
+                                        <p style={{marginBottom: '1rem', fontSize: '0.95rem'}}>
+                                            <strong>What I've observed:</strong><br/>
+                                            {formData.observations}
+                                        </p>
+                                        <p style={{marginBottom: '1rem', fontSize: '0.95rem', borderTop: '1px solid #ffc107', paddingTop: '1rem'}}>
+                                            <strong>What the Australian Curriculum expects for {year}:</strong><br/>
+                                            "{curriculumAreas[year].find(a => a.id === area).expectation}"
+                                        </p>
+                                        <p style={{fontSize: '0.95rem', color: '#856404', fontStyle: 'italic'}}>
+                                            <strong>The gap:</strong> There appears to be a discrepancy between what my child is able to do at home and the {year} curriculum expectation for {curriculumAreas[year].find(a => a.id === area).label.toLowerCase()}.
+                                        </p>
+                                        <p style={{fontSize: '0.85rem', color: '#666', marginTop: '1rem'}}>
+                                            <a href={curriculumAreas[year].find(a => a.id === area).standard} target="_blank" rel="noopener noreferrer" style={{color: '#0066cc', textDecoration: 'none'}}>
+                                                📖 View full Australian Curriculum v9 →
+                                            </a>
+                                        </p>
+                                    </div>
+                                )}
+                                <div className="form-group">
+                                    <label>How frequently is this observed?</label>
+                                    <select name="frequency" value={formData.frequency} onChange={handleFormChange}>
+                                        <option value="">Select...</option>
+                                        <option value="Occasionally">Occasionally (once or twice a week)</option>
+                                        <option value="Regularly">Regularly (several times a week)</option>
+                                        <option value="Frequently">Frequently (most days)</option>
+                                        <option value="Consistently">Consistently (almost daily)</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>How long has this been evident?</label>
+                                    <input type="text" name="duration" value={formData.duration} onChange={handleFormChange} placeholder="e.g., For the past 2 months" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Report date</label>
+                                    <input type="date" name="date" value={formData.date} onChange={handleFormChange} />
+                                </div>
+                                <button className="btn btn-primary" onClick={generateReport}>Generate Report</button>
+                            </div>
+                        )}
+                    </>
+                )}
+
+                {tab === 'preview' && reportGenerated && (
+                    <div className="section">
+                        <h2>Your Observation Report</h2>
+                        <p style={{marginBottom: '1.5rem', color: '#666'}}>Date: {formData.date} | Year Level: {year}</p>
+                        <h3 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>Purpose</h3>
+                        <p>This confidential report documents observations regarding student learning and development. It facilitates open communication between home and school.</p>
+                        <h3 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>Observations</h3>
+                        <p><strong>What I've noticed:</strong> {formData.observations}</p>
+                        <p><strong>Frequency:</strong> {formData.frequency}</p>
+                        <p><strong>Duration:</strong> {formData.duration}</p>
+                        <h3 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>Curriculum Alignment</h3>
+                        {curriculumAreas[year] && curriculumAreas[year].find(a => a.id === area) && (
+                            <div>
+                                <p style={{marginBottom: '1rem', fontSize: '0.95rem'}}><strong>Observed behaviour:</strong></p>
+                                <p style={{marginBottom: '1.5rem', paddingLeft: '1rem', borderLeft: '3px solid #ffc107'}}>{formData.observations}</p>
+                                <p style={{marginBottom: '1rem', fontSize: '0.95rem'}}><strong>Australian Curriculum expectation for {year}:</strong></p>
+                                <p style={{marginBottom: '1.5rem', paddingLeft: '1rem', borderLeft: '3px solid #378ADD', fontSize: '0.95rem', fontStyle: 'italic'}}>"{curriculumAreas[year].find(a => a.id === area).expectation}"</p>
+                                <p style={{marginBottom: '1.5rem', padding: '1rem', background: '#f9f9f9', borderRadius: '6px', fontSize: '0.95rem'}}>
+                                    <strong>The discrepancy:</strong> There appears to be a gap between what my child is demonstrating at home and the expected achievement standard for {year}. The frequency of these observations ({formData.frequency.toLowerCase()}) suggests this is an ongoing pattern worth exploring together.
+                                </p>
+                                <p style={{fontSize: '0.85rem', color: '#666'}}>
+                                    <a href={curriculumAreas[year].find(a => a.id === area).standard} target="_blank" rel="noopener noreferrer" style={{color: '#0066cc', textDecoration: 'none'}}>
+                                        📖 View full Australian Curriculum v9 →
+                                    </a>
+                                </p>
+                            </div>
+                        )}
+                        <p>I would appreciate the opportunity to discuss these observations. I value your perspective from the school environment and am keen to work together to best support this student's progress.</p>
+                        <div style={{marginTop: '2rem'}}>
+                            {isPaid ? (
+                                <button className="btn btn-primary" onClick={() => window.print()}>⬇️ Download as PDF</button>
+                            ) : (
+                                <button className="btn btn-secondary" onClick={() => setTab('pricing')}>🔒 Unlock PDF Download</button>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {tab === 'preview' && !reportGenerated && (
+                    <div className="placeholder">
+                        <div style={{fontSize: '2rem', marginBottom: '1rem'}}>📄</div>
+                        <p>Fill in the form and generate a report to see it here.</p>
+                    </div>
+                )}
+
+                {tab === 'pricing' && (
+                    <div className="section" style={{textAlign: 'center'}}>
+                        <h2>Unlock PDF Download</h2>
+                        <div style={{fontSize: '2.5rem', color: '#378ADD', margin: '1.5rem 0', fontWeight: 'bold'}}>$4.99</div>
+                        <p style={{marginBottom: '1.5rem'}}>One-time payment for unlimited reports</p>
+                        <ul style={{textAlign: 'left', display: 'inline-block', marginBottom: '2rem'}}>
+                            <li style={{marginBottom: '0.75rem'}}>✓ Download reports as PDF</li>
+                            <li style={{marginBottom: '0.75rem'}}>✓ Generate unlimited reports</li>
+                            <li style={{marginBottom: '0.75rem'}}>✓ Professional formatting</li>
+                            <li style={{marginBottom: '0.75rem'}}>✓ For all year levels</li>
+                        </ul>
+                        <button className="btn btn-primary" onClick={() => { setIsPaid(true); alert('In production, this connects to Stripe. You now have access to PDF download.'); }}>💳 Unlock for $4.99</button>
+                        {isPaid && <p style={{marginTop: '1rem', color: '#1D9E75'}}>✓ Report generator unlocked!</p>}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>
